@@ -2,6 +2,22 @@
 
 set -e
 
+# Function to check if the directory exists
+check_directory_exists() {
+  local venv_path=$1
+
+  if [ -d "$venv_path" ]; then
+    read -p "Directory $venv_path already exists. Do you want to remove it before creating a new one? (y/N) " user_input
+    if [[ ! $user_input =~ ^[Yy]$ ]]; then
+      echo "aborting..."
+      exit 1
+    else
+      echo "removing existing directory..."
+      rm -rf "$venv_path"
+    fi
+  fi
+}
+
 # Function to create a virtual environment
 create_virtualenv() {
   local py_version=$1
@@ -11,19 +27,22 @@ create_virtualenv() {
   local python_interpreter
   python_interpreter="$(pyenv root)/versions/$py_version/bin/python"
 
-  # Try venv first
+  check_directory_exists "$venv_path"
+
+  # Try venv
   echo "Trying venv..."
   set +e
   "$python_interpreter" -m venv "$venv_path"
   local venv_status=$?
   set -e
 
-  # venv module is not available
+  # venv unavailable
   if [ $venv_status -ne 0 ]; then
     echo "Trying virtualenv..."
 
     # Check if virtualenv is installed
     if ! "$python_interpreter" -m virtualenv --version; then
+      # Ask user to install virtualenv
       read -p "Do you want to install virtualenv? (y/N) " user_input
       if [[ ! $user_input =~ ^[Yy]$ ]]; then
         echo "aborting..."
@@ -33,7 +52,7 @@ create_virtualenv() {
       fi
     fi
 
-    # Create the virtual environment using virtualenv
+    # Finally try virtualenv
     "$python_interpreter" -m virtualenv "$venv_path"
   fi
 
