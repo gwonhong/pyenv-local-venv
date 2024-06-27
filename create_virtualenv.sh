@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# Function to find matching Python version
+resolve_python_version() {
+  local py_version=$1
+  local latest_version
+  
+  # check available versions from pyenv install --list and pick the latest version
+  latest_version=$(pyenv install --list | grep -E "^\s*$py_version" | tail -1 | tr -d ' ')
+  if [ -z "$latest_version" ]; then
+    echo "Error: Could not find any version for $py_version."
+    exit 1
+  fi
+
+  echo "$latest_version"
+}
+
 # Function to create a virtual environment
 create_virtualenv() {
   local py_version=$1
@@ -20,10 +35,13 @@ create_virtualenv() {
     exit 1
   fi
 
+  local used_module
   # Check if the venv module is available
   if "$python_interpreter" -m venv "$venv_path" 2>/dev/null; then
-    echo "Virtual environment created at $venv_path using venv module."
+    # venv module is available
+    used_module="venv module"
   else
+    # venv module is not available
     echo "venv module is not available. Falling back to virtualenv."
 
     # Ensure virtualenv is installed
@@ -31,8 +49,10 @@ create_virtualenv() {
 
     # Create the virtual environment using virtualenv
     "$python_interpreter" -m virtualenv "$venv_path"
-    echo "Virtual environment created at $venv_path using virtualenv package."
+    used_module="virtualenv package"
   fi
+
+  echo "Created at $venv_path with ($py_version) using ($used_module)."
 }
 
 # Main script
@@ -45,7 +65,7 @@ if [ $# -eq 1 ]; then
   python_version=$(pyenv version-name)
   venv_path=$1
 else
-  python_version=$1
+  python_version=$(resolve_python_version $1)
   venv_path=$2
 fi
 
