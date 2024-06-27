@@ -11,21 +11,30 @@ create_virtualenv() {
   local python_interpreter
   python_interpreter="$(pyenv root)/versions/$py_version/bin/python"
 
-  local used_module
   # Try venv first
+  echo "Trying venv..."
   set +e
-  "$python_interpreter" -m venv "$venv_path" 2>/dev/null
-  if [ $? -ne 0 ]; then
-    set -e
-    # venv module is not available
-    echo "venv unavailable. Trying virtualenv."
+  "$python_interpreter" -m venv "$venv_path"
+  local venv_status=$?
+  set -e
 
-    # Ensure virtualenv is installed
-    "$python_interpreter" -m pip install --user virtualenv
+  # venv module is not available
+  if [ $venv_status -ne 0 ]; then
+    echo "Trying virtualenv..."
+
+    # Check if virtualenv is installed
+    if ! "$python_interpreter" -m virtualenv --version; then
+      read -p "Do you want to install virtualenv? (y/N) " user_input
+      if [[ ! $user_input =~ ^[Yy]$ ]]; then
+        echo "aborting..."
+        exit 0
+      else
+        "$python_interpreter" -m pip install --user virtualenv
+      fi
+    fi
 
     # Create the virtual environment using virtualenv
     "$python_interpreter" -m virtualenv "$venv_path"
-    used_module="virtualenv package"
   fi
 
   echo "Created virtual environment at $venv_path with ($py_version)."
