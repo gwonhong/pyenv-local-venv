@@ -1,6 +1,12 @@
 #!/bin/bash
+#
+# Summary: Create a Python venv locally in the given directory
+#
+# Usage: pyenv local-venv [python_version] <venv_path>
+#
 
 set -e
+[ -n "$PYENV_DEBUG" ] && set -x
 
 # Function to check if the directory exists
 check_directory_exists() {
