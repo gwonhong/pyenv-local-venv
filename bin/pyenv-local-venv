@@ -14,6 +14,11 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+# Provide pyenv completions
+if [ "$1" = "--complete" ]; then
+  exec pyenv-versions --bare
+fi
+
 # Function to check if the directory exists
 check_directory_exists() {
   local venv_path=$1
