@@ -6,7 +6,6 @@
 
 - Easy creation of local virtual environments
 - Seamless integration with `pyenv`
-- Simplified commands for managing Python versions and virtual environments
 
 ## Installation
 
