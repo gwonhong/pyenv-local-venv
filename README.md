@@ -1,6 +1,8 @@
 # pyenv-local-venv
 
-`pyenv-local-venv` is a `pyenv` plugin that allows you to create and manage isolated Python environments for your projects. It extends the capabilities of `pyenv` by providing a simpler interface for managing local virtual environments.
+`pyenv-local-venv` is a [pyenv](https://github.com/pyenv/pyenv) plugin that simply creates Python venv to a current(or specific) directory. So you must install `pyenv` in advance to use this plugin.
+
+If you need to manage your virtual environments more systematically, checkout [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv). I created this plugin because I needed a simpler solution for my use case after trying that plugin.
 
 ## Features
 
@@ -13,14 +15,14 @@
 
 This will install the latest development version of pyenv-local-venv into the $(pyenv root)/plugins/pyenv-local-venv directory.
 
-Important note: If you installed pyenv into a non-standard directory, make sure that you clone this repo into the 'plugins' directory of wherever you installed into.
-
 From inside that directory you can:
 
-- Check out a specific release tag.
-- Get the latest development release by running git pull to download the latest changes.
+- (WIP)Check out a specific release tag.
+- Get the latest development release by running `git pull` to download the latest changes.
 
-To install, run the following script:
+Important note: If you installed pyenv into a non-standard directory, make sure that you clone this repo into the 'plugins' directory of wherever you installed into.
+
+Run the following script:
 
 ```bash
 git clone https://github.com/gwonhong/pyenv-local-venv.git $(pyenv root)/plugins/pyenv-local-venv
