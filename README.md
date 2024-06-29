@@ -1,13 +1,13 @@
 # pyenv-local-venv
 
-`pyenv-local-venv` is a [pyenv](https://github.com/pyenv/pyenv) plugin that simply creates Python venv to a current(or specific) directory. So you must install `pyenv` in advance to use this plugin.
+`pyenv-local-venv` is a [pyenv](https://github.com/pyenv/pyenv) plugin that simply creates Python venv at current(or specific) directory. So you must install `pyenv` in advance to use this plugin.
 
 If you need to manage your virtual environments more systematically, checkout [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv). I created this plugin because I needed a simpler solution for my use case after trying that plugin.
 
-## Features
+## Summary
 
-- Easy creation of local virtual environments
-- Seamless integration with `pyenv`
+- You can create a Python virtual environment of specific version at current directory by `pyenv local-venv 3.12.1 .venv`
+- No other features like auto-activation. I depend on VSCode's virtual environment detection feature for auto-activation.
 
 ## Installation
 
