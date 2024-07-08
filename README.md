@@ -56,7 +56,7 @@ $ pyenv local-venv .venv
 
 There is a [venv](https://docs.python.org/3/library/venv.html) module available for CPython 3.3 and newer. It provides an executable module `venv` which is the successor of `virtualenv` and distributed by default.
 
-pyenv-local-venv uses `python -m venv` if it is available and the `virtualenv` command is not available.
+`pyenv-local-venv` uses `python -m venv` if it is available and if not, uses the `virtualenv`. Also if `virtualenv` package is not installed when needed, `pyenv-local-venv` asks you to install it or not.
 
 ## License
 
